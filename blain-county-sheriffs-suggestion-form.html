@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blain County Sheriff's Office – Internal Suggestion Form</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #1A2744;
+      --gold:    #C9923A;
+      --gold-lt: #F0D9B5;
+      --tan:     #F5F0E8;
+      --white:   #FFFFFF;
+      --mid:     #6B7280;
+      --border:  #D6CEBC;
+      --error:   #C0392B;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--tan);
+      color: var(--navy);
+      min-height: 100vh;
+      padding: 0 0 60px;
+    }
+
+    .banner {
+      background: var(--navy);
+      color: var(--white);
+      padding: 28px 24px 24px;
+      text-align: center;
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .banner-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .badge { width: 70px; height: 70px; flex-shrink: 0; }
+
+    .badge-text { text-align: left; }
+
+    .badge-text h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+      color: var(--white);
+    }
+
+    .badge-text p {
+      font-size: 0.78rem;
+      color: var(--gold-lt);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-top: 3px;
+    }
+
+    .intro {
+      max-width: 660px;
+      margin: 32px auto 0;
+      padding: 0 16px;
+    }
+
+    .intro-card {
+      background: var(--white);
+      border-left: 5px solid var(--gold);
+      border-radius: 4px;
+      padding: 20px 22px;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #374151;
+    }
+
+    .intro-card strong { color: var(--navy); }
+
+    .form-wrap {
+      max-width: 660px;
+      margin: 24px auto 0;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      padding: 26px 26px 22px;
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+
+    label .opt {
+      font-weight: 400;
+      color: var(--mid);
+      font-size: 0.8rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--navy);
+      background: var(--white);
+      transition: border-color 0.15s;
+      appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(26,39,68,0.1);
+    }
+
+    .select-wrap { position: relative; }
+
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--mid);
+      pointer-events: none;
+      font-size: 0.85rem;
+    }
+
+    textarea { resize: vertical; min-height: 120px; }
+
+    .field { margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .row-2 { grid-template-columns: 1fr; }
+      .banner-inner { flex-direction: column; text-align: center; }
+      .badge-text { text-align: center; }
+    }
+
+    .radio-group, .check-group {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .radio-group label,
+    .check-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 400;
+      color: #374151;
+      cursor: pointer;
+      margin-bottom: 0;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--navy);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    /* Category pills */
+    .category-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .category-grid { grid-template-columns: 1fr; }
+    }
+
+    .category-grid input[type="radio"] { display: none; }
+
+    .cat-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #374151;
+      background: var(--white);
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      margin-bottom: 0;
+    }
+
+    .cat-pill .pill-icon { font-size: 1.2rem; }
+
+    .category-grid input[type="radio"]:checked + .cat-pill {
+      border-color: var(--navy);
+      background: #EEF2FF;
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* Anon toggle */
+    .anon-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #EEF2FF;
+      border-radius: 4px;
+      border: 1px solid #C7D2FE;
+      margin-bottom: 18px;
+      font-size: 0.86rem;
+      color: #3730A3;
+      cursor: pointer;
+    }
+
+    .anon-row input { accent-color: #3730A3; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-transform: uppercase;
+    }
+
+    .submit-btn:hover { background: #263560; }
+    .submit-btn:active { background: #111a38; }
+
+    .privacy-note {
+      font-size: 0.76rem;
+      color: var(--mid);
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* Success */
+    .success-screen {
+      display: none;
+      max-width: 660px;
+      margin: 48px auto 0;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    .success-screen.visible { display: block; }
+
+    .success-icon { font-size: 3rem; margin-bottom: 16px; }
+
+    .success-screen h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.6rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .success-screen p {
+      color: #374151;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .ref-box {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 22px;
+      background: var(--gold-lt);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--navy);
+    }
+
+    .ref-box strong { font-size: 1rem; }
+
+    .field-error {
+      color: var(--error);
+      font-size: 0.78rem;
+      margin-top: 4px;
+      display: none;
+    }
+
+    input.invalid, select.invalid, textarea.invalid {
+      border-color: var(--error);
+    }
+
+    #contactSection { transition: opacity 0.2s; }
+    #contactSection.hidden { opacity: 0.3; pointer-events: none; }
+
+    /* subdivision conditional */
+    #subdivisionWrap { display: none; margin-top: 12px; }
+    #subdivisionWrap.visible { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="banner-inner">
+    <svg class="badge" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <polygon points="50,5 61,20 79,14 78,33 95,42 85,58 90,77 72,77 62,92 50,82 38,92 28,77 10,77 15,58 5,42 22,33 21,14 39,20" fill="#C9923A" stroke="#F0D9B5" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="24" fill="#1A2744" stroke="#F0D9B5" stroke-width="1.5"/>
+      <text x="50" y="46" text-anchor="middle" fill="#F0D9B5" font-family="EB Garamond, serif" font-size="7.5" font-weight="600">BLAIN CO.</text>
+      <text x="50" y="55" text-anchor="middle" fill="#F0D9B5" font-family="EB Garamond, serif" font-size="7.5" font-weight="600">SHERIFF</text>
+    </svg>
+    <div class="badge-text">
+      <h1>Blain County Sheriff's Office</h1>
+      <p>Internal Staff Suggestion Form</p>
+    </div>
+  </div>
+</div>
+
+<div class="intro">
+  <div class="intro-card">
+    <strong>Your input improves the office.</strong> Use this form to submit suggestions on training, procedures, policies, SOPs, subdivisions, or anything else. All submissions are reviewed by command staff. You may submit anonymously.
+  </div>
+</div>
+
+<div class="form-wrap" id="formSection">
+  <form id="suggestionForm" novalidate>
+
+    <!-- Category -->
+    <div class="card">
+      <div class="card-title">1. What area does your suggestion relate to?</div>
+      <div class="field">
+        <div class="category-grid" id="categoryGroup">
+          <label>
+            <input type="radio" name="category" value="Training">
+            <span class="cat-pill"><span class="pill-icon">🎓</span> Training</span>
+          </label>
+          <label>
+            <input type="radio" name="category" value="Procedures">
+            <span class="cat-pill"><span class="pill-icon">📋</span> Procedures</span>
+          </label>
+          <label>
+            <input type="radio" name="category" value="Subdivisions">
+            <span class="cat-pill"><span class="pill-icon">🏢</span> Subdivisions</span>
+          </label>
+          <label>
+            <input type="radio" name="category" value="Policies">
+            <span class="cat-pill"><span class="pill-icon">📜</span> Policies</span>
+          </label>
+          <label>
+            <input type="radio" name="category" value="SOP">
+            <span class="cat-pill"><span class="pill-icon">📁</span> SOP</span>
+          </label>
+          <label>
+            <input type="radio" name="category" value="Other">
+            <span class="cat-pill"><span class="pill-icon">💡</span> Other</span>
+          </label>
+        </div>
+        <div class="field-error" id="categoryError">Please select a category.</div>
+
+        <!-- Subdivision dropdown — shown only when Subdivisions is selected -->
+        <div id="subdivisionWrap">
+          <label for="subdivision" style="margin-top:4px;">Which subdivision? <span class="opt">(optional)</span></label>
+          <div class="select-wrap">
+            <select id="subdivision" name="subdivision">
+              <option value="">Select subdivision</option>
+              <option>Patrol</option>
+              <option>Investigations / Detectives</option>
+              <option>Corrections / Jail</option>
+              <option>Communications / Dispatch</option>
+              <option>K-9 Unit</option>
+              <option>Traffic / DUI Enforcement</option>
+              <option>Administration</option>
+              <option>Other / Not listed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggestion detail -->
+    <div class="card">
+      <div class="card-title">2. Describe your suggestion</div>
+
+      <div class="field">
+        <label for="subject">Subject <span class="opt">(brief title)</span></label>
+        <input type="text" id="subject" name="subject" placeholder="e.g. Update use-of-force SOP section 4.2" maxlength="120">
+        <div class="field-error" id="subjectError">Please enter a subject.</div>
+      </div>
+
+      <div class="field">
+        <label for="details">Details</label>
+        <textarea id="details" name="details" placeholder="Explain your suggestion clearly. Include what the current issue is, what you'd recommend changing, and why…"></textarea>
+        <div class="field-error" id="detailsError">Please describe your suggestion.</div>
+      </div>
+
+      <div class="field">
+        <label for="currentIssue">What problem does this solve? <span class="opt">(optional)</span></label>
+        <textarea id="currentIssue" name="currentIssue" placeholder="Describe any gaps, safety concerns, or inefficiencies this addresses…" style="min-height:80px;"></textarea>
+      </div>
+    </div>
+
+    <!-- Priority -->
+    <div class="card">
+      <div class="card-title">3. How urgent is this?</div>
+      <div class="field">
+        <div class="select-wrap">
+          <select id="urgency" name="urgency">
+            <option value="">Select urgency</option>
+            <option value="Low general improvement">Low general improvement</option>
+            <option value="Medium should be addressed soon">Medium should be addressed soon</option>
+            <option value="High safety or compliance concern">High safety or compliance concern</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Anonymous toggle -->
+    <label class="anon-row" for="anonCheck">
+      <input type="checkbox" id="anonCheck" name="anonymous">
+      Submit anonymously — my name will not be recorded
+    </label>
+
+    <!-- Staff info -->
+    <div class="card" id="contactSection">
+      <div class="card-title">4. Your information <span class="opt">(optional — only needed if you want a follow-up)</span></div>
+
+      <div class="field">
+        <label for="name">Name <span class="opt">(e.g. J. Doe)</span></label>
+        <input type="text" id="name" name="name" placeholder="J. Doe" autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label for="rank">Rank / Title <span class="opt">(optional)</span></label>
+        <div class="select-wrap">
+          <select id="rank" name="rank">
+            <option value="">Select rank</option>
+            <option>Sheriff</option>
+            <option>Undersheriff</option>
+            <option>Assistant Sheriff</option>
+            <option>Chief Deputy</option>
+            <option>Major</option>
+            <option>Captain</option>
+            <option>Lieutenant</option>
+            <option>Master Sergeant</option>
+            <option>Staff Sergeant</option>
+            <option>Sergeant</option>
+            <option>Corporal</option>
+            <option>Master Deputy</option>
+            <option>Senior Deputy</option>
+            <option>Deputy 2</option>
+            <option>Deputy 1</option>
+            <option>Trainee</option>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="field">
+        <label>Would you like a follow-up from command staff?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="followup" value="Yes"> Yes, please follow up with me</label>
+          <label><input type="radio" name="followup" value="No"> No follow-up needed</label>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Suggestion</button>
+    <p class="privacy-note">Submissions are reviewed by command staff. Anonymous submissions are fully protected and cannot be traced back to the submitter.</p>
+
+  </form>
+</div>
+
+<!-- Success -->
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">✅</div>
+  <h2>Suggestion received.</h2>
+  <p>Thank you for helping improve the Blain County Sheriff's Office. Command staff will review your submission.</p>
+  <div class="ref-box">
+    Reference #: <strong id="refNumber"></strong>
+  </div>
+  <p style="margin-top:18px; color:#6B7280; font-size:0.82rem;">
+    <a href="#" id="submitAnother" style="color:#1A2744;">Submit another suggestion</a>
+  </p>
+</div>
+
+<script>
+  // Anonymous toggle
+  const anonCheck = document.getElementById('anonCheck');
+  const contactSection = document.getElementById('contactSection');
+  anonCheck.addEventListener('change', () => {
+    contactSection.classList.toggle('hidden', anonCheck.checked);
+  });
+
+  // Show subdivision dropdown when Subdivisions category selected
+  document.querySelectorAll('input[name="category"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const wrap = document.getElementById('subdivisionWrap');
+      wrap.classList.toggle('visible', radio.value === 'Subdivisions');
+    });
+  });
+
+  // Helpers
+  function showError(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = show ? 'block' : 'none';
+  }
+
+  function setInvalid(el, invalid) {
+    if (el) el.classList.toggle('invalid', invalid);
+  }
+
+  function validateEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  // Submit
+  document.getElementById('suggestionForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    const cat = document.querySelector('input[name="category"]:checked');
+    showError('categoryError', !cat);
+    if (!cat) valid = false;
+
+    const subject = document.getElementById('subject');
+    const subjectOk = subject.value.trim().length > 0;
+    showError('subjectError', !subjectOk);
+    setInvalid(subject, !subjectOk);
+    if (!subjectOk) valid = false;
+
+    const details = document.getElementById('details');
+    const detailsOk = details.value.trim().length > 0;
+    showError('detailsError', !detailsOk);
+    setInvalid(details, !detailsOk);
+    if (!detailsOk) valid = false;
+
+    if (!anonCheck.checked) {
+      const email = document.getElementById('email');
+      if (email.value.trim() && !validateEmail(email.value.trim())) {
+        showError('emailError', true);
+        setInvalid(email, true);
+        valid = false;
+      } else {
+        showError('emailError', false);
+        setInvalid(email, false);
+      }
+    }
+
+    if (!valid) return;
+
+    const ref = 'BCSO-' + Date.now().toString().slice(-6) + '-' + Math.floor(Math.random()*900+100);
+    document.getElementById('refNumber').textContent = ref;
+    document.getElementById('formSection').style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.getElementById('submitAnother').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('suggestionForm').reset();
+    contactSection.classList.remove('hidden');
+
+    document.getElementById('subdivisionWrap').classList.remove('visible');
+    document.getElementById('formSection').style.display = 'block';
+    document.getElementById('successScreen').classList.remove('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
