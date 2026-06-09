@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blain County Sheriff's Office – Internal Suggestion Form</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Inter:wght@400;500;600&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1A2744; --gold: #C9923A; --gold-lt: #F0D9B5;
+      --tan: #F5F0E8; --white: #FFFFFF; --mid: #6B7280;
+      --border: #D6CEBC; --error: #C0392B;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--tan); color: var(--navy); min-height: 100vh; padding-bottom: 60px; }
+
+    /* Banner */
+    .banner { background: var(--navy); color: var(--white); padding: 24px; text-align: center; border-bottom: 4px solid var(--gold); }
+    .banner-inner { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; position: relative; max-width: 900px; margin: 0 auto; }
+    .badge-text h1 { font-family: 'EB Garamond', serif; font-size: 1.55rem; font-weight: 600; letter-spacing: 0.03em; line-height: 1.2; color: var(--white); }
+    .badge-text p { font-size: 0.78rem; color: var(--gold-lt); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 3px; }
+
+    /* Cards */
+    .wrap { max-width: 660px; margin: 24px auto 0; padding: 0 16px; }
+    .intro-wrap { max-width: 660px; margin: 32px auto 0; padding: 0 16px; }
+    .intro-card { background: var(--white); border-left: 5px solid var(--gold); border-radius: 4px; padding: 20px 22px; font-size: 0.92rem; line-height: 1.65; color: #374151; }
+    .intro-card strong { color: var(--navy); }
+    .card { background: var(--white); border-radius: 6px; border: 1px solid var(--border); padding: 26px; margin-bottom: 18px; }
+    .card-title { font-family: 'EB Garamond', serif; font-size: 1.05rem; font-weight: 600; color: var(--navy); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+    /* Fields */
+    .field { margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+    label.field-label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--navy); margin-bottom: 5px; }
+    label.field-label .opt { font-weight: 400; color: var(--mid); font-size: 0.8rem; }
+    input[type="text"], input[type="password"], select, textarea {
+      width: 100%; padding: 10px 13px; border: 1.5px solid var(--border); border-radius: 4px;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--navy);
+      background: var(--white); transition: border-color 0.15s; appearance: none; outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(26,39,68,0.1); }
+    textarea { resize: vertical; min-height: 110px; }
+    .select-wrap { position: relative; }
+    .select-wrap::after { content: '▾'; position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--mid); pointer-events: none; font-size: 0.85rem; }
+    .field-error { color: var(--error); font-size: 0.78rem; margin-top: 4px; display: none; }
+    input.invalid, select.invalid, textarea.invalid { border-color: var(--error); }
+
+    /* Category pills */
+    .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .cat-pill { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.88rem; font-weight: 500; color: #374151; background: var(--white); transition: all 0.15s; user-select: none; }
+    .cat-pill.selected { border-color: var(--navy); background: #EEF2FF; color: var(--navy); font-weight: 600; }
+    .cat-pill .icon { font-size: 1.2rem; }
+
+    /* Anon row */
+    .anon-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #EEF2FF; border-radius: 4px; border: 1px solid #C7D2FE; margin-bottom: 18px; font-size: 0.86rem; color: #3730A3; cursor: pointer; }
+    .anon-row input { accent-color: #3730A3; width: 17px; height: 17px; }
+
+    /* Radio group */
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+    .radio-group label { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: #374151; cursor: pointer; font-weight: 400; }
+    .radio-group input[type="radio"] { width: 17px; height: 17px; accent-color: var(--navy); cursor: pointer; }
+
+    /* Submit */
+    .submit-btn { width: 100%; padding: 14px; background: var(--navy); color: var(--white); font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.04em; border: none; border-radius: 5px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; }
+    .submit-btn:hover { background: #263560; }
+    .privacy-note { font-size: 0.76rem; color: var(--mid); text-align: center; margin-top: 12px; line-height: 1.5; }
+
+    /* Success */
+    .success-screen { display: none; max-width: 600px; margin: 60px auto 0; padding: 0 16px; text-align: center; }
+    .success-screen.visible { display: block; }
+    .success-icon { font-size: 3rem; margin-bottom: 16px; }
+    .success-screen h2 { font-family: 'EB Garamond', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 10px; }
+    .success-screen p { color: #374151; font-size: 0.92rem; line-height: 1.6; }
+    .ref-box { display: inline-block; margin: 18px 0; padding: 10px 22px; background: var(--gold-lt); border: 1px solid var(--gold); border-radius: 4px; font-size: 0.85rem; color: var(--navy); }
+    .ref-box strong { font-size: 1rem; }
+
+    /* Subdivision wrap */
+    #subdivisionWrap { display: none; margin-top: 12px; }
+    #subdivisionWrap.visible { display: block; }
+
+    @media (max-width: 480px) {
+      .cat-grid { grid-template-columns: 1fr; }
+      .banner-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Main Form ── -->
+<div id="mainScreen">
+  <div class="banner">
+    <div class="banner-inner">
+      <svg width="70" height="70" viewBox="0 0 100 100" fill="none">
+        <polygon points="50,5 61,20 79,14 78,33 95,42 85,58 90,77 72,77 62,92 50,82 38,92 28,77 10,77 15,58 5,42 22,33 21,14 39,20" fill="#C9923A" stroke="#F0D9B5" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="24" fill="#1A2744" stroke="#F0D9B5" stroke-width="1.5"/>
+        <text x="50" y="46" text-anchor="middle" fill="#F0D9B5" font-family="EB Garamond,serif" font-size="7.5" font-weight="600">BLAIN CO.</text>
+        <text x="50" y="55" text-anchor="middle" fill="#F0D9B5" font-family="EB Garamond,serif" font-size="7.5" font-weight="600">SHERIFF</text>
+      </svg>
+      <div class="badge-text">
+        <h1>Blain County Sheriff's Office</h1>
+        <p>Internal Staff Suggestion Form</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div id="formSection">
+    <div class="intro-wrap">
+      <div class="intro-card">
+        <strong>Your input improves the office.</strong> Use this form to submit suggestions on training, procedures, policies, SOPs, subdivisions, or anything else. All submissions are reviewed by command staff. You may submit anonymously.
+      </div>
+    </div>
+
+    <div class="wrap">
+
+      <!-- Category -->
+      <div class="card">
+        <div class="card-title">1. What area does your suggestion relate to?</div>
+        <div class="cat-grid" id="catGrid">
+          <div class="cat-pill" data-val="Training" onclick="selectCat(this)"><span class="icon">🎓</span> Training</div>
+          <div class="cat-pill" data-val="Procedures" onclick="selectCat(this)"><span class="icon">📋</span> Procedures</div>
+          <div class="cat-pill" data-val="Subdivisions" onclick="selectCat(this)"><span class="icon">🏢</span> Subdivisions</div>
+          <div class="cat-pill" data-val="Policies" onclick="selectCat(this)"><span class="icon">📜</span> Policies</div>
+          <div class="cat-pill" data-val="SOP" onclick="selectCat(this)"><span class="icon">📁</span> SOP</div>
+          <div class="cat-pill" data-val="Other" onclick="selectCat(this)"><span class="icon">💡</span> Other</div>
+        </div>
+        <div class="field-error" id="categoryError">Please select a category.</div>
+        <div id="subdivisionWrap">
+          <label class="field-label" style="margin-top:4px;">Which subdivision? <span class="opt">(optional)</span></label>
+          <div class="select-wrap">
+            <select id="subdivision">
+              <option value="">Select subdivision</option>
+              <option>Patrol</option>
+              <option>Investigations / Detectives</option>
+              <option>Corrections / Jail</option>
+              <option>Communications / Dispatch</option>
+              <option>K-9 Unit</option>
+              <option>Traffic / DUI Enforcement</option>
+              <option>Administration</option>
+              <option>Other / Not listed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div class="card">
+        <div class="card-title">2. Describe your suggestion</div>
+        <div class="field">
+          <label class="field-label" for="subject">Subject <span class="opt">(brief title)</span></label>
+          <input type="text" id="subject" placeholder="e.g. Update use-of-force SOP section 4.2" maxlength="120">
+          <div class="field-error" id="subjectError">Please enter a subject.</div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="details">Details</label>
+          <textarea id="details" placeholder="Explain your suggestion clearly. Include what the current issue is, what you'd recommend changing, and why…"></textarea>
+          <div class="field-error" id="detailsError">Please describe your suggestion.</div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="currentIssue">What problem does this solve? <span class="opt">(optional)</span></label>
+          <textarea id="currentIssue" style="min-height:80px;" placeholder="Describe any gaps, safety concerns, or inefficiencies this addresses…"></textarea>
+        </div>
+      </div>
+
+      <!-- Urgency -->
+      <div class="card">
+        <div class="card-title">3. How urgent is this?</div>
+        <div class="select-wrap">
+          <select id="urgency">
+            <option value="">Select urgency</option>
+            <option>Low general improvement</option>
+            <option>Medium should be addressed soon</option>
+            <option>High safety or compliance concern</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Anonymous -->
+      <label class="anon-row" for="anonCheck">
+        <input type="checkbox" id="anonCheck" onchange="toggleAnon()">
+        Submit anonymously — my name will not be recorded
+      </label>
+
+      <!-- Contact -->
+      <div class="card" id="contactSection">
+        <div class="card-title">4. Your information <span style="font-weight:400;color:#6B7280;font-size:0.85rem;">(optional)</span></div>
+        <div class="field">
+          <label class="field-label" for="nameInput">Name <span class="opt">(e.g. J. Doe)</span></label>
+          <input type="text" id="nameInput" placeholder="J. Doe" autocomplete="name">
+        </div>
+        <div class="field">
+          <label class="field-label" for="rank">Rank <span class="opt">(optional)</span></label>
+          <div class="select-wrap">
+            <select id="rank">
+              <option value="">Select rank</option>
+              <option>Sheriff</option>
+              <option>Undersheriff</option>
+              <option>Assistant Sheriff</option>
+              <option>Chief Deputy</option>
+              <option>Major</option>
+              <option>Captain</option>
+              <option>Lieutenant</option>
+              <option>Master Sergeant</option>
+              <option>Staff Sergeant</option>
+              <option>Sergeant</option>
+              <option>Corporal</option>
+              <option>Master Deputy</option>
+              <option>Senior Deputy</option>
+              <option>Deputy 2</option>
+              <option>Deputy 1</option>
+              <option>Trainee</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Would you like a follow-up from command staff?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="followup" value="Yes, please follow up with me"> Yes, please follow up with me</label>
+            <label><input type="radio" name="followup" value="No follow-up needed"> No follow-up needed</label>
+          </div>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitForm()">Submit Suggestion</button>
+      <p class="privacy-note">Submissions are reviewed by command staff. Anonymous submissions are fully protected and cannot be traced back to the submitter.</p>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✅</div>
+    <h2>Suggestion received.</h2>
+    <p>Thank you for helping improve the Blain County Sheriff's Office. Command staff will review your submission.</p>
+    <div class="ref-box">Reference #: <strong id="refNumber"></strong></div>
+    <br>
+    <button onclick="resetForm()" style="margin-top:8px;background:none;border:none;color:#1A2744;font-size:0.85rem;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;">Submit another suggestion</button>
+  </div>
+</div>
+
+<script>
+  let selectedCategory = "";
+
+  // ── Category pills ──
+  function selectCat(el) {
+    document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("selected"));
+    el.classList.add("selected");
+    selectedCategory = el.dataset.val;
+    document.getElementById("subdivisionWrap").classList.toggle("visible", selectedCategory === "Subdivisions");
+    document.getElementById("categoryError").style.display = "none";
+  }
+
+  // ── Anonymous toggle ──
+  function toggleAnon() {
+    const anon = document.getElementById("anonCheck").checked;
+    document.getElementById("contactSection").style.opacity = anon ? "0.3" : "1";
+    document.getElementById("contactSection").style.pointerEvents = anon ? "none" : "auto";
+  }
+
+  // ── Validation ──
+  function validate() {
+    let ok = true;
+    if (!selectedCategory) {
+      document.getElementById("categoryError").style.display = "block"; ok = false;
+    }
+    const subject = document.getElementById("subject");
+    if (!subject.value.trim()) {
+      document.getElementById("subjectError").style.display = "block";
+      subject.classList.add("invalid"); ok = false;
+    } else {
+      document.getElementById("subjectError").style.display = "none";
+      subject.classList.remove("invalid");
+    }
+    const details = document.getElementById("details");
+    if (!details.value.trim()) {
+      document.getElementById("detailsError").style.display = "block";
+      details.classList.add("invalid"); ok = false;
+    } else {
+      document.getElementById("detailsError").style.display = "none";
+      details.classList.remove("invalid");
+    }
+    return ok;
+  }
+
+  // ── Submit form ──
+  async function submitForm() {
+    if (!validate()) return;
+    const anon = document.getElementById("anonCheck").checked;
+    const followupEl = document.querySelector('input[name="followup"]:checked');
+    const ref = "BCSO-" + Date.now().toString().slice(-6) + "-" + Math.floor(Math.random()*900+100);
+
+    const btn = document.querySelector(".submit-btn");
+    btn.textContent = "Submitting...";
+    btn.disabled = true;
+
+    try {
+      const res = await fetch("https://formspree.io/f/meewzobl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          "Reference #": ref,
+          "Category": selectedCategory,
+          "Subdivision": document.getElementById("subdivision").value || "N/A",
+          "Subject": document.getElementById("subject").value.trim(),
+          "Details": document.getElementById("details").value.trim(),
+          "Problem it Solves": document.getElementById("currentIssue").value.trim() || "N/A",
+          "Urgency": document.getElementById("urgency").value || "Not specified",
+          "Anonymous": anon ? "Yes" : "No",
+          "Name": anon ? "Anonymous" : (document.getElementById("nameInput").value.trim() || "Not provided"),
+          "Rank": anon ? "N/A" : (document.getElementById("rank").value || "Not provided"),
+          "Follow-up Requested": anon ? "N/A" : (followupEl ? followupEl.value : "Not specified"),
+          "Date": new Date().toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric"})
+        })
+      });
+      if (!res.ok) throw new Error("Failed");
+    } catch(e) {
+      btn.textContent = "Submit Suggestion";
+      btn.disabled = false;
+      alert("Submission failed. Please check your internet connection and try again.");
+      return;
+    }
+
+    btn.textContent = "Submit Suggestion";
+    btn.disabled = false;
+    document.getElementById("refNumber").textContent = ref;
+    document.getElementById("formSection").style.display = "none";
+    document.getElementById("successScreen").classList.add("visible");
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  // ── Reset form ──
+  function resetForm() {
+    selectedCategory = "";
+    document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("selected"));
+    document.getElementById("subdivisionWrap").classList.remove("visible");
+    document.getElementById("subject").value = "";
+    document.getElementById("details").value = "";
+    document.getElementById("currentIssue").value = "";
+    document.getElementById("urgency").value = "";
+    document.getElementById("anonCheck").checked = false;
+    document.getElementById("nameInput").value = "";
+    document.getElementById("rank").value = "";
+    document.querySelectorAll('input[name="followup"]').forEach(r => r.checked = false);
+    document.getElementById("contactSection").style.opacity = "1";
+    document.getElementById("contactSection").style.pointerEvents = "auto";
+    document.getElementById("successScreen").classList.remove("visible");
+    document.getElementById("formSection").style.display = "block";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+</script>
+</body>
+</html>
